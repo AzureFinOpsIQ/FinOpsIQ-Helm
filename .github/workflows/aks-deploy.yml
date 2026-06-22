@@ -1,0 +1,119 @@
+name: AKS Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment to deploy.
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
+        default: dev
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  CHART_PATH: charts/finopsiq
+  RELEASE_NAME: finopsiq
+
+jobs:
+  deploy:
+    name: Helm Upgrade and AKS Validation
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Helm repository
+        uses: actions/checkout@v4
+
+      - name: Select environment values
+        id: values
+        shell: bash
+        run: |
+          set -euo pipefail
+          values_file="${CHART_PATH}/values-${{ inputs.environment }}.yaml"
+          if [ ! -f "$values_file" ]; then
+            echo "Missing values file: $values_file" >&2
+            exit 1
+          fi
+          namespace="$(awk '
+            /^environment:/ { in_environment=1; next }
+            /^[^[:space:]]/ { in_environment=0 }
+            in_environment && /^[[:space:]]+namespace:/ { print $2; exit }
+          ' "$values_file")"
+          if [ -z "$namespace" ]; then
+            echo "Unable to determine namespace from $values_file" >&2
+            exit 1
+          fi
+          echo "values_file=$values_file" >> "$GITHUB_OUTPUT"
+          echo "namespace=$namespace" >> "$GITHUB_OUTPUT"
+
+      - name: Show image tags from Helm values
+        shell: bash
+        run: |
+          awk '
+            /^  [A-Za-z0-9]+:/ { service=$1; gsub(":", "", service) }
+            /^[[:space:]]+repository:/ { repository=$2 }
+            /^[[:space:]]+tag:/ {
+              tag=$2
+              if (service != "" && repository != "") {
+                print "- " service ": " repository ":" tag
+              }
+              repository=""
+            }
+          ' "${{ steps.values.outputs.values_file }}"
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group "${{ vars.AKS_RESOURCE_GROUP }}" \
+            --name "${{ vars.AKS_CLUSTER_NAME }}" \
+            --overwrite-existing
+
+      - name: Helm lint
+        run: helm lint "$CHART_PATH" -f "${{ steps.values.outputs.values_file }}"
+
+      - name: Helm upgrade install
+        run: |
+          helm upgrade --install "$RELEASE_NAME" "$CHART_PATH" \
+            --namespace "${{ steps.values.outputs.namespace }}" \
+            --create-namespace \
+            -f "${{ steps.values.outputs.values_file }}" \
+            --atomic \
+            --timeout 10m
+
+      - name: Verify rollout status
+        run: |
+          kubectl -n "${{ steps.values.outputs.namespace }}" rollout status deployment/frontend --timeout=5m
+          kubectl -n "${{ steps.values.outputs.namespace }}" rollout status deployment/api-gateway --timeout=5m
+          kubectl -n "${{ steps.values.outputs.namespace }}" rollout status deployment/auth-service --timeout=5m
+          kubectl -n "${{ steps.values.outputs.namespace }}" rollout status deployment/collection-service --timeout=5m
+          kubectl -n "${{ steps.values.outputs.namespace }}" rollout status deployment/processing-service --timeout=5m
+          kubectl -n "${{ steps.values.outputs.namespace }}" rollout status deployment/ai-service --timeout=5m
+          kubectl -n "${{ steps.values.outputs.namespace }}" rollout status deployment/notification-service --timeout=5m
+
+      - name: Verify pod health
+        run: |
+          kubectl -n "${{ steps.values.outputs.namespace }}" get pods -o wide
+          kubectl -n "${{ steps.values.outputs.namespace }}" wait --for=condition=Ready pods --all --timeout=5m
+
+      - name: Verify ingress health
+        run: |
+          kubectl -n "${{ steps.values.outputs.namespace }}" get ingress
+          kubectl -n "${{ steps.values.outputs.namespace }}" describe ingress
