@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.cache
+
+# Helm-generated artifacts
+*.tgz
+rendered-manifest*.yaml
+rendered-manifest*.yml
+
+# Local Kubernetes files
+kubeconfig
+*.kubeconfig
