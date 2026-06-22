@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: finopsiq-dev
+  namespace: argocd
+spec:
+  project: finopsiq
+  source:
+    repoURL: https://github.com/AzureFinOpsIQ/FinOpsIQ-Helm.git
+    targetRevision: main
+    path: charts/finopsiq
+    helm:
+      valueFiles:
+        - dev-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: finopsiq-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

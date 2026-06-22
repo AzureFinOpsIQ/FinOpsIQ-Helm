@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: finopsiq
+  namespace: argocd
+spec:
+  description: FinsOpsIQ GitOps project for development and production workloads
+  sourceRepos:
+    - https://github.com/AzureFinOpsIQ/FinOpsIQ-Helm.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: finopsiq-dev
+    - server: https://kubernetes.default.svc
+      namespace: finopsiq-prod
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: apps
+      kind: Deployment
+    - group: ""
+      kind: Service
+    - group: networking.k8s.io
+      kind: Ingress
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Secret
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+    - group: ""
+      kind: ServiceAccount
+    - group: networking.k8s.io
+      kind: NetworkPolicy
+    - group: policy
+      kind: PodDisruptionBudget
