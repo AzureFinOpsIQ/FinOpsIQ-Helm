@@ -1,8 +1,14 @@
-# FinsOpsIQ AKS Deployment Pipeline Scaffold
+# FinsOpsIQ AKS Deployment Pipeline
 
 Workflow: `.github/workflows/aks-deploy.yml`
 
-This workflow deploys the existing Helm chart to AKS using the selected environment values file.
+This repository owns the AKS deployment trigger only. The implementation is centralized in `AzureFinOpsIQ/FinOPsIQ-Workflows`:
+
+```text
+AzureFinOpsIQ/FinOPsIQ-Workflows/.github/workflows/helm-aks-deploy.yml@main
+```
+
+The Helm repository workflow is a thin caller and passes named inputs/secrets explicitly. It does not use `secrets: inherit`.
 
 Responsibilities:
 
