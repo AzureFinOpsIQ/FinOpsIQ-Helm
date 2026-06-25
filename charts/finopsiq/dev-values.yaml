@@ -17,36 +17,36 @@ services:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/frontend
       tag: f45015
-    serviceAccountClientId: ""
+    serviceAccountClientId: "abf849a7-443b-4013-9105-1e1ba521a788"
     env:
       NEXT_PUBLIC_API_URL: ""
   apiGateway:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/api-gateway
       tag: f45015
-    serviceAccountClientId: ""
+    serviceAccountClientId: "24c7fc4d-86c8-422d-bdb1-b371eb570acd"
   auth:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/auth-service
       tag: f45015
-    serviceAccountClientId: ""
+    serviceAccountClientId: "fc23dd8f-7559-468f-8d25-20a232183691"
   collection:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/collection-service
       tag: f45015
-    serviceAccountClientId: ""
+    serviceAccountClientId: "1451cd50-e3e0-4f1b-9131-f0052abbf995"
   processing:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/processing-service
       tag: f45015
-    serviceAccountClientId: ""
+    serviceAccountClientId: "4d514f4a-65d7-4959-a466-e07964b34ea0"
   ai:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/ai-service
       tag: f45015
-    serviceAccountClientId: ""
+    serviceAccountClientId: "fadb169c-3f39-4928-bbd2-cccd8f376300"
   notification:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/notification-service
       tag: f45015
-    serviceAccountClientId: ""
+    serviceAccountClientId: "cbf9297d-d188-4831-8cc0-952259687fd9"
