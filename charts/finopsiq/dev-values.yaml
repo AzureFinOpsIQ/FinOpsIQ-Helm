@@ -6,6 +6,31 @@ workloadIdentity:
 config:
   secretName: finopsiq-dev-app-config
   keyVaultName: kv-finopsiq-dev
+  env:
+    AZURE_TENANT_ID: "22dc2419-3ab3-4f27-905a-945315d19d95"
+    STORAGE_PROVIDER: cosmos
+    STORAGE_DATA_DIR: /tmp/finopsiq/storage
+    DATA_RAW_DIR: /tmp/finopsiq/raw
+    DATA_PROCESSED_DIR: /tmp/finopsiq/processed
+    DATA_EMBEDDINGS_DIR: /tmp/finopsiq/embeddings
+    COSMOS_ENDPOINT: "https://cosmos-finopsiq-dev.documents.azure.com:443/"
+    COSMOS_DATABASE: finopsiq
+    SERVICE_BUS_NAMESPACE: "sb-finopsiq-dev.servicebus.windows.net"
+    SERVICE_BUS_TOPIC: finops-events
+    EVENT_PROVIDER: service_bus
+    AZURE_STORAGE_ACCOUNT_URL: "https://stfinopsiqdev.blob.core.windows.net/"
+    AZURE_STORAGE_CONTAINER: finops-raw
+    USE_MANAGED_IDENTITY: "true"
+    AUTH_MODE: entra
+    APPLICATIONINSIGHTS_CONNECTION_STRING: ""
+    KEY_VAULT_URL: "https://kv-finopsiq-dev.vault.azure.net/"
+    INTERNAL_API_AUDIENCE: api://azure-cost-advisor-services
+    AZURE_OPENAI_ENDPOINT: "https://oai-finopsiq-dev.openai.azure.com/"
+    AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4.1-mini
+    AZURE_OPENAI_EMBEDDING_DEPLOYMENT: text-embedding-3-small
+    AZURE_SEARCH_ENDPOINT: "https://search-finopsiq-dev.search.windows.net"
+    AZURE_SEARCH_INDEX_NAME: finops-knowledge
+    AZURE_SEARCH_SEMANTIC_CONFIG: finops-semantic
 ingress:
   enabled: true
   className: azure-application-gateway

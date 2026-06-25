@@ -50,10 +50,10 @@ spec:
             - secretRef:
                 name: {{ .Values.config.secretName | quote }}
           env:
+{{ include "finopsiq.commonEnv" . | indent 12 }}
+{{ include "finopsiq.workloadIdentityEnv" (dict "clientId" .Values.services.notification.serviceAccountClientId) | indent 12 }}
             - name: SERVICE_MODULE
               value: {{ .Values.services.notification.serviceModule | quote }}
-            - name: USE_MANAGED_IDENTITY
-              value: "true"
           readinessProbe:
             httpGet:
               path: /health/ready

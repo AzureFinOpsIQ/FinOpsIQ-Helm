@@ -50,10 +50,10 @@ spec:
             - secretRef:
                 name: {{ .Values.config.secretName | quote }}
           env:
+{{ include "finopsiq.commonEnv" . | indent 12 }}
+{{ include "finopsiq.workloadIdentityEnv" (dict "clientId" .Values.services.apiGateway.serviceAccountClientId) | indent 12 }}
             - name: SERVICE_MODULE
               value: {{ .Values.services.apiGateway.serviceModule | quote }}
-            - name: USE_MANAGED_IDENTITY
-              value: "true"
             - name: AUTH_SERVICE_URL
               value: {{ .Values.config.serviceUrls.authServiceUrl | quote }}
             - name: COLLECTION_SERVICE_URL

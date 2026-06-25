@@ -47,6 +47,8 @@ spec:
             - name: http
               containerPort: {{ .Values.services.frontend.port }}
           env:
+{{ include "finopsiq.commonEnv" . | indent 12 }}
+{{ include "finopsiq.workloadIdentityEnv" (dict "clientId" .Values.services.frontend.serviceAccountClientId) | indent 12 }}
             - name: NEXT_PUBLIC_API_URL
               value: {{ .Values.services.frontend.env.NEXT_PUBLIC_API_URL | quote }}
           readinessProbe:
