@@ -1,56 +1,52 @@
 environment:
   name: dev
   namespace: finopsiq-dev
-
 workloadIdentity:
   tenantId: "22dc2419-3ab3-4f27-905a-945315d19d95"
-
 config:
   secretName: finopsiq-dev-app-config
   keyVaultName: kv-finopsiq-dev
-
 ingress:
   enabled: true
   className: azure-application-gateway
   hostname: ""
   sslCertificateName: ""
   sslRedirect: false
-
 services:
   frontend:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/frontend
-      tag: 82583c
+      tag: f45015
     serviceAccountClientId: ""
     env:
       NEXT_PUBLIC_API_URL: ""
   apiGateway:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/api-gateway
-      tag: 82583c
+      tag: f45015
     serviceAccountClientId: ""
   auth:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/auth-service
-      tag: 82583c
+      tag: f45015
     serviceAccountClientId: ""
   collection:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/collection-service
-      tag: 82583c
+      tag: f45015
     serviceAccountClientId: ""
   processing:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/processing-service
-      tag: 82583c
+      tag: f45015
     serviceAccountClientId: ""
   ai:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/ai-service
-      tag: 82583c
+      tag: f45015
     serviceAccountClientId: ""
   notification:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/notification-service
-      tag: 82583c
+      tag: f45015
     serviceAccountClientId: ""
