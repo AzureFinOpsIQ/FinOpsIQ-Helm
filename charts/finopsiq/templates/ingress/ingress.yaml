@@ -2,12 +2,46 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: finopsiq
+  name: finopsiq-frontend
   namespace: {{ .Values.environment.namespace | quote }}
   labels:
     app.kubernetes.io/name: finopsiq
+    app.kubernetes.io/component: frontend
+  annotations:
+    appgw.ingress.kubernetes.io/health-probe-path: /
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200-399"
+    appgw.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.sslRedirect | quote }}
+    {{- if .Values.ingress.sslCertificateName }}
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: {{ .Values.ingress.sslCertificateName | quote }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className | quote }}
+  rules:
+    - {{- if .Values.ingress.hostname }}
+      host: {{ .Values.ingress.hostname | quote }}
+      {{- end }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: finopsiq-api
+  namespace: {{ .Values.environment.namespace | quote }}
+  labels:
+    app.kubernetes.io/name: finopsiq
+    app.kubernetes.io/component: api-gateway
   annotations:
     appgw.ingress.kubernetes.io/backend-path-prefix: /
+    appgw.ingress.kubernetes.io/health-probe-path: /health/live
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200-399"
     appgw.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.sslRedirect | quote }}
     {{- if .Values.ingress.sslCertificateName }}
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: {{ .Values.ingress.sslCertificateName | quote }}
@@ -26,12 +60,5 @@ spec:
               service:
                 name: api-gateway
                 port:
-                  number: 8000
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend
-                port:
-                  number: 3000
+                  name: http
 {{- end }}

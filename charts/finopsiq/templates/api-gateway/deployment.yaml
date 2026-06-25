@@ -17,11 +17,32 @@ spec:
       labels:
         app.kubernetes.io/name: finopsiq
         app.kubernetes.io/component: api-gateway
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: api-gateway
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+      {{- if and .Values.config.csi.enabled .Values.config.keyVaultName .Values.services.apiGateway.serviceAccountClientId }}
+      volumes:
+        - name: app-config-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ printf "%s-api-gateway" .Values.config.secretProviderClassPrefix | quote }}
+      {{- end }}
       containers:
         - name: api-gateway
           image: "{{ required "services.apiGateway.image.repository is required" .Values.services.apiGateway.image.repository }}:{{ .Values.services.apiGateway.image.tag }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
+          {{- if and .Values.config.csi.enabled .Values.config.keyVaultName .Values.services.apiGateway.serviceAccountClientId }}
+          volumeMounts:
+            - name: app-config-secrets
+              mountPath: /mnt/secrets-store
+              readOnly: true
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.services.apiGateway.port }}

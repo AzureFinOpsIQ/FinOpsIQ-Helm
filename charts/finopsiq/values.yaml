@@ -11,6 +11,52 @@ workloadIdentity:
 config:
   secretName: finopsiq-app-config
   keyVaultName: ""
+  secretProviderClassPrefix: finopsiq-app-config
+  csi:
+    enabled: true
+  secretKeys:
+    - AZURE_TENANT_ID
+    - AZURE_CLIENT_ID
+    - AZURE_CLIENT_SECRET
+    - AZURE_SUBSCRIPTION_ID
+    - STORAGE_PROVIDER
+    - STORAGE_DATA_DIR
+    - DATA_RAW_DIR
+    - DATA_PROCESSED_DIR
+    - DATA_EMBEDDINGS_DIR
+    - DEFAULT_TENANT_ID
+    - DEFAULT_SUBSCRIPTION_ID
+    - COSMOS_ENDPOINT
+    - COSMOS_DATABASE
+    - SERVICE_BUS_NAMESPACE
+    - SERVICE_BUS_TOPIC
+    - EVENT_PROVIDER
+    - AZURE_STORAGE_ACCOUNT_URL
+    - AZURE_STORAGE_CONTAINER
+    - USE_MANAGED_IDENTITY
+    - AUTH_MODE
+    - ENTRA_CLIENT_ID
+    - ENTRA_CLIENT_SECRET
+    - ENTRA_AUTHORITY
+    - ENTRA_REDIRECT_URI
+    - ENTRA_POST_LOGOUT_REDIRECT_URI
+    - API_SESSION_SECRET
+    - API_CORS_ORIGINS
+    - FRONTEND_URL
+    - APPLICATIONINSIGHTS_CONNECTION_STRING
+    - KEY_VAULT_URL
+    - INTERNAL_API_AUDIENCE
+    - AUTH_SERVICE_URL
+    - COLLECTION_SERVICE_URL
+    - PROCESSING_SERVICE_URL
+    - AI_SERVICE_URL
+    - NOTIFICATION_SERVICE_URL
+    - AZURE_OPENAI_ENDPOINT
+    - AZURE_OPENAI_DEPLOYMENT_NAME
+    - AZURE_OPENAI_EMBEDDING_DEPLOYMENT
+    - AZURE_SEARCH_ENDPOINT
+    - AZURE_SEARCH_INDEX_NAME
+    - AZURE_SEARCH_SEMANTIC_CONFIG
   serviceUrls:
     authServiceUrl: http://auth-service:8000
     collectionServiceUrl: http://collection-service:8000
@@ -41,11 +87,17 @@ autoscaling:
   cpuUtilization: 70
   memoryUtilization: 80
 
+nodeSelector:
+  kubernetes.azure.com/agentpool: workload
+
+tolerations: []
+
 services:
   frontend:
     image:
       repository: ""
       tag: latest
+    serviceAccountClientId: ""
     port: 3000
     env:
       NEXT_PUBLIC_API_URL: ""
@@ -53,6 +105,7 @@ services:
     image:
       repository: ""
       tag: latest
+    serviceAccountClientId: ""
     port: 8000
     serviceModule: src.microservices.gateway_service
   auth:

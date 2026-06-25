@@ -20,10 +20,29 @@ spec:
         azure.workload.identity/use: "true"
     spec:
       serviceAccountName: notification-service
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+      {{- if and .Values.config.csi.enabled .Values.config.keyVaultName .Values.services.notification.serviceAccountClientId }}
+      volumes:
+        - name: app-config-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ printf "%s-notification-service" .Values.config.secretProviderClassPrefix | quote }}
+      {{- end }}
       containers:
         - name: notification-service
           image: "{{ required "services.notification.image.repository is required" .Values.services.notification.image.repository }}:{{ .Values.services.notification.image.tag }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
+          {{- if and .Values.config.csi.enabled .Values.config.keyVaultName .Values.services.notification.serviceAccountClientId }}
+          volumeMounts:
+            - name: app-config-secrets
+              mountPath: /mnt/secrets-store
+              readOnly: true
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.services.notification.port }}
