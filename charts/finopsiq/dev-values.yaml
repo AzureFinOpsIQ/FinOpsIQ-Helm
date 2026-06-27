@@ -49,36 +49,36 @@ services:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/frontend
       tag: f8b653
-    serviceAccountClientId: "abf849a7-443b-4013-9105-1e1ba521a788"
+    serviceAccountClientId: "92f3fc9e-702c-4eff-ab6a-56fffe6f1523"
     env:
       NEXT_PUBLIC_API_URL: "http://azurefinopsiq.site/api"
   apiGateway:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/api-gateway
       tag: f8b653
-    serviceAccountClientId: "24c7fc4d-86c8-422d-bdb1-b371eb570acd"
+    serviceAccountClientId: "5f4562d3-82b3-4c60-a186-ea3035b3da9f"
   auth:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/auth-service
       tag: f8b653
-    serviceAccountClientId: "fc23dd8f-7559-468f-8d25-20a232183691"
+    serviceAccountClientId: "efac2fc2-8d54-4499-a223-486c8bd513e9"
   collection:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/collection-service
       tag: f8b653
-    serviceAccountClientId: "1451cd50-e3e0-4f1b-9131-f0052abbf995"
+    serviceAccountClientId: "842a5338-dd3f-43b7-ab99-d0656d549919"
   processing:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/processing-service
       tag: f8b653
-    serviceAccountClientId: "4d514f4a-65d7-4959-a466-e07964b34ea0"
+    serviceAccountClientId: "4a3d4457-e4d9-45b2-a7d1-e07bd11bf046"
   ai:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/ai-service
       tag: f8b653
-    serviceAccountClientId: "fadb169c-3f39-4928-bbd2-cccd8f376300"
+    serviceAccountClientId: "702baa45-6db0-4fbd-aa49-613ce6a54910"
   notification:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/notification-service
       tag: f8b653
-    serviceAccountClientId: "cbf9297d-d188-4831-8cc0-952259687fd9"
+    serviceAccountClientId: "f7b848e1-c654-416d-bdfa-e171e4ff7cb7"
