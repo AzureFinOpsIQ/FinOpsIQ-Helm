@@ -4,7 +4,7 @@ metadata:
   name: argocd-server
   namespace: argocd
   annotations:
-    appgw.ingress.kubernetes.io/backend-protocol: https
+    appgw.ingress.kubernetes.io/backend-protocol: http
     appgw.ingress.kubernetes.io/health-probe-path: /healthz
     appgw.ingress.kubernetes.io/health-probe-status-codes: "200-399"
 spec:
@@ -19,4 +19,4 @@ spec:
               service:
                 name: argocd-server
                 port:
-                  name: https
+                  name: http
