@@ -22,6 +22,13 @@ config:
     AZURE_STORAGE_CONTAINER: finops-raw
     USE_MANAGED_IDENTITY: "true"
     AUTH_MODE: entra
+    ENTRA_CLIENT_ID: ""
+    COLLECTION_ENTRA_CLIENT_ID: ""
+    ENTRA_AUTHORITY: "https://login.microsoftonline.com/22dc2419-3ab3-4f27-905a-945315d19d95"
+    ENTRA_REDIRECT_URI: "https://azurefinopsiq.site/auth/callback"
+    ENTRA_POST_LOGOUT_REDIRECT_URI: "https://azurefinopsiq.site/"
+    API_CORS_ORIGINS: "https://azurefinopsiq.site"
+    FRONTEND_URL: "https://azurefinopsiq.site"
     APPLICATIONINSIGHTS_CONNECTION_STRING: ""
     KEY_VAULT_URL: "https://kv-finopsiq-dev.vault.azure.net/"
     INTERNAL_API_AUDIENCE: api://azure-cost-advisor-services
@@ -34,7 +41,7 @@ config:
 ingress:
   enabled: true
   className: azure-application-gateway
-  hostname: ""
+  hostname: azurefinopsiq.site
   sslCertificateName: ""
   sslRedirect: false
 services:
@@ -44,7 +51,7 @@ services:
       tag: f8b653
     serviceAccountClientId: "abf849a7-443b-4013-9105-1e1ba521a788"
     env:
-      NEXT_PUBLIC_API_URL: ""
+      NEXT_PUBLIC_API_URL: "https://azurefinopsiq.site/api"
   apiGateway:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/api-gateway
