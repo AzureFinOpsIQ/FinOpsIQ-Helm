@@ -25,10 +25,10 @@ config:
     ENTRA_CLIENT_ID: "06cb757a-4c5c-4d12-8341-e5a45d3871f0"
     COLLECTION_ENTRA_CLIENT_ID: "b195fb5e-a399-4db4-bd6b-3e7fd830a0b6"
     ENTRA_AUTHORITY: "https://login.microsoftonline.com/22dc2419-3ab3-4f27-905a-945315d19d95"
-    ENTRA_REDIRECT_URI: "http://azurefinopsiq.site/auth/callback"
-    ENTRA_POST_LOGOUT_REDIRECT_URI: "http://azurefinopsiq.site/"
-    API_CORS_ORIGINS: "http://azurefinopsiq.site"
-    FRONTEND_URL: "http://azurefinopsiq.site"
+    ENTRA_REDIRECT_URI: "https://azurefinopsiq.site/auth/callback"
+    ENTRA_POST_LOGOUT_REDIRECT_URI: "https://azurefinopsiq.site/"
+    API_CORS_ORIGINS: "https://azurefinopsiq.site"
+    FRONTEND_URL: "https://azurefinopsiq.site"
     APPLICATIONINSIGHTS_CONNECTION_STRING: ""
     KEY_VAULT_URL: "https://kv-finopsiq-dev.vault.azure.net/"
     INTERNAL_API_AUDIENCE: api://azure-cost-advisor-services
@@ -42,8 +42,8 @@ ingress:
   enabled: true
   className: azure-application-gateway
   hostname: azurefinopsiq.site
-  sslCertificateName: ""
-  sslRedirect: false
+  sslCertificateName: "azurefinopsiq-site-cert"
+  sslRedirect: true
 services:
   frontend:
     image:
@@ -51,7 +51,7 @@ services:
       tag: f8b653
     serviceAccountClientId: "92f3fc9e-702c-4eff-ab6a-56fffe6f1523"
     env:
-      NEXT_PUBLIC_API_URL: "http://azurefinopsiq.site/api"
+      NEXT_PUBLIC_API_URL: "https://azurefinopsiq.site/api"
   apiGateway:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/api-gateway
