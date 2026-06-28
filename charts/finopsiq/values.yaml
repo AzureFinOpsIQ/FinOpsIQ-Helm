@@ -78,7 +78,7 @@ resources:
 
 autoscaling:
   minReplicas: 2
-  maxReplicas: 2
+  maxReplicas: 5
   cpuUtilization: 70
   memoryUtilization: 80
 
