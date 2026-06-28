@@ -32,6 +32,7 @@ config:
     APPLICATIONINSIGHTS_CONNECTION_STRING: ""
     KEY_VAULT_URL: "https://kv-finopsiq-dev.vault.azure.net/"
     INTERNAL_API_AUDIENCE: api://finopsiq-internal-api
+    INTERNAL_API_CLIENT_ID: "1e78ad2b-14ba-43b8-94ec-f7d8f80c74ae"
     AZURE_OPENAI_ENDPOINT: "https://oai-finopsiq-dev.openai.azure.com/"
     AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4.1-mini
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT: text-embedding-3-small
