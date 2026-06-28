@@ -48,7 +48,7 @@ services:
   frontend:
     image:
       repository: acrfinopsiqdev.azurecr.io/finopsiq/frontend
-      tag: f8b653
+      tag: 49a85b
     serviceAccountClientId: "92f3fc9e-702c-4eff-ab6a-56fffe6f1523"
     env:
       NEXT_PUBLIC_API_URL: "https://azurefinopsiq.site/api"
