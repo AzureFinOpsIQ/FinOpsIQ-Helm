@@ -10,8 +10,8 @@ Feature/business logic changes are intentionally out of scope for this chart.
 charts/finopsiq/
   Chart.yaml
   values.yaml
-  values-dev.yaml
-  values-prod.yaml
+  dev-values.yaml
+  prod-values.yaml
   deployment-dependency-diagram.md
   templates/
     namespace/
@@ -100,7 +100,7 @@ Federated Identity Credentials must be created for each service account outside 
 Example:
 
 ```powershell
-docker run --rm -v ${PWD}:/work -w /work alpine/helm:3.15.4 template finopsiq charts/finopsiq -f charts/finopsiq/values-dev.yaml `
+docker run --rm -v ${PWD}:/work -w /work alpine/helm:3.15.4 template finopsiq charts/finopsiq -f charts/finopsiq/dev-values.yaml `
   --set services.frontend.image.repository=<acr>/frontend `
   --set services.apiGateway.image.repository=<acr>/api-gateway `
   --set services.auth.image.repository=<acr>/auth-service `
@@ -121,7 +121,7 @@ docker run --rm -v ${PWD}:/work -w /work alpine/helm:3.15.4 template finopsiq ch
 helm upgrade --install finopsiq-dev charts/finopsiq `
   --namespace finopsiq-dev `
   --create-namespace `
-  -f charts/finopsiq/values-dev.yaml `
+  -f charts/finopsiq/dev-values.yaml `
   --set services.frontend.image.repository=<acr>/frontend `
   --set services.apiGateway.image.repository=<acr>/api-gateway `
   --set services.auth.image.repository=<acr>/auth-service `
@@ -136,7 +136,7 @@ helm upgrade --install finopsiq-dev charts/finopsiq `
   --set services.notification.serviceAccountClientId=<notification-managed-identity-client-id>
 ```
 
-Use `values-prod.yaml` and namespace `finopsiq-prod` for production.
+Use `prod-values.yaml` and namespace `finopsiq-prod` for production.
 
 ## Required validation after deployment
 

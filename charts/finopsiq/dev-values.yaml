@@ -22,8 +22,8 @@ config:
     AZURE_STORAGE_CONTAINER: finops-raw
     USE_MANAGED_IDENTITY: "true"
     AUTH_MODE: entra
-    ENTRA_CLIENT_ID: "06cb757a-4c5c-4d12-8341-e5a45d3871f0"
-    COLLECTION_ENTRA_CLIENT_ID: "b195fb5e-a399-4db4-bd6b-3e7fd830a0b6"
+    ENTRA_CLIENT_ID: "33b43052-6b93-4cb9-8942-0fa49ff391c4"
+    COLLECTION_ENTRA_CLIENT_ID: "9cd16d85-88d5-4697-8863-98ec99bb38e7"
     ENTRA_AUTHORITY: "https://login.microsoftonline.com/22dc2419-3ab3-4f27-905a-945315d19d95"
     ENTRA_REDIRECT_URI: "https://azurefinopsiq.site/api/auth/callback"
     ENTRA_POST_LOGOUT_REDIRECT_URI: "https://azurefinopsiq.site/"
@@ -31,7 +31,7 @@ config:
     FRONTEND_URL: "https://azurefinopsiq.site"
     APPLICATIONINSIGHTS_CONNECTION_STRING: ""
     KEY_VAULT_URL: "https://kv-finopsiq-dev.vault.azure.net/"
-    INTERNAL_API_AUDIENCE: api://azure-cost-advisor-services
+    INTERNAL_API_AUDIENCE: api://finopsiq-internal-api
     AZURE_OPENAI_ENDPOINT: "https://oai-finopsiq-dev.openai.azure.com/"
     AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4.1-mini
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT: text-embedding-3-small

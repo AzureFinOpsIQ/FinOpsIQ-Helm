@@ -23,7 +23,7 @@ Current behavior:
 
 - Manual `workflow_dispatch` only.
 - Accepts `dev` or `prod` as the target environment.
-- Reads image repositories and tags from `values-dev.yaml` or `values-prod.yaml`.
+- Reads image repositories and tags from `dev-values.yaml` or `prod-values.yaml`.
 - Runs Helm lint.
 - Runs `helm upgrade --install`.
 - Verifies rollout status.

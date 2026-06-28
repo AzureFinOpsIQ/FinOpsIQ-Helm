@@ -24,7 +24,7 @@ charts/finopsiq
 
 ```bash
 helm lint charts/finopsiq
-helm template finopsiq charts/finopsiq -f charts/finopsiq/values-dev.yaml
+helm template finopsiq charts/finopsiq -f charts/finopsiq/dev-values.yaml
 ```
 
 ## Deploy

@@ -33,7 +33,7 @@ config:
     FRONTEND_URL: "https://azurefinopsiq.site"
     APPLICATIONINSIGHTS_CONNECTION_STRING: ""
     KEY_VAULT_URL: "https://kv-finopsiq-prod.vault.azure.net/"
-    INTERNAL_API_AUDIENCE: api://azure-cost-advisor-services
+    INTERNAL_API_AUDIENCE: api://finopsiq-internal-api
     AZURE_OPENAI_ENDPOINT: "https://oai-finopsiq-prod.openai.azure.com/"
     AZURE_OPENAI_DEPLOYMENT_NAME: gpt-4.1-mini
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT: text-embedding-3-small
