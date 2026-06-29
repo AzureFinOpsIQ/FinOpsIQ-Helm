@@ -54,37 +54,37 @@ services:
   frontend:
     image:
       repository: acrfinopsiqprod.azurecr.io/finopsiq/frontend
-      tag: prod
+      tag: v1.0.0
     serviceAccountClientId: ""
     env:
       NEXT_PUBLIC_API_URL: "https://azurefinopsiq.site/api"
   apiGateway:
     image:
       repository: acrfinopsiqprod.azurecr.io/finopsiq/api-gateway
-      tag: prod
+      tag: v1.0.0
     serviceAccountClientId: ""
   auth:
     image:
       repository: acrfinopsiqprod.azurecr.io/finopsiq/auth-service
-      tag: prod
+      tag: v1.0.0
     serviceAccountClientId: ""
   collection:
     image:
       repository: acrfinopsiqprod.azurecr.io/finopsiq/collection-service
-      tag: prod
+      tag: v1.0.0
     serviceAccountClientId: ""
   processing:
     image:
       repository: acrfinopsiqprod.azurecr.io/finopsiq/processing-service
-      tag: prod
+      tag: v1.0.0
     serviceAccountClientId: ""
   ai:
     image:
       repository: acrfinopsiqprod.azurecr.io/finopsiq/ai-service
-      tag: prod
+      tag: v1.0.0
     serviceAccountClientId: ""
   notification:
     image:
       repository: acrfinopsiqprod.azurecr.io/finopsiq/notification-service
-      tag: prod
+      tag: v1.0.0
     serviceAccountClientId: ""
