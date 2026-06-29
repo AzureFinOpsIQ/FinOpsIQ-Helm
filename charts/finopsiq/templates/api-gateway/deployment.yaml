@@ -14,6 +14,8 @@ spec:
       app.kubernetes.io/component: api-gateway
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         app.kubernetes.io/name: finopsiq
         app.kubernetes.io/component: api-gateway
@@ -47,10 +49,11 @@ spec:
             - name: http
               containerPort: {{ .Values.services.apiGateway.port }}
           envFrom:
+            - configMapRef:
+                name: {{ include "finopsiq.configMapName" . | quote }}
             - secretRef:
                 name: {{ .Values.config.secretName | quote }}
           env:
-{{ include "finopsiq.commonEnv" . | indent 12 }}
 {{ include "finopsiq.workloadIdentityEnv" (dict "clientId" .Values.services.apiGateway.serviceAccountClientId) | indent 12 }}
             - name: SERVICE_MODULE
               value: {{ .Values.services.apiGateway.serviceModule | quote }}

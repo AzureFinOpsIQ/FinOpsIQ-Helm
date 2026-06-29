@@ -14,6 +14,8 @@ spec:
       app.kubernetes.io/component: auth-service
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         app.kubernetes.io/name: finopsiq
         app.kubernetes.io/component: auth-service
@@ -47,10 +49,11 @@ spec:
             - name: http
               containerPort: {{ .Values.services.auth.port }}
           envFrom:
+            - configMapRef:
+                name: {{ include "finopsiq.configMapName" . | quote }}
             - secretRef:
                 name: {{ .Values.config.secretName | quote }}
           env:
-{{ include "finopsiq.commonEnv" . | indent 12 }}
 {{ include "finopsiq.workloadIdentityEnv" (dict "clientId" .Values.services.auth.serviceAccountClientId) | indent 12 }}
             - name: SERVICE_MODULE
               value: {{ .Values.services.auth.serviceModule | quote }}

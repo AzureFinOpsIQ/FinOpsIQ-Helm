@@ -10,6 +10,7 @@ workloadIdentity:
 
 config:
   secretName: finopsiq-app-config
+  configMapName: finopsiq-app-config-env
   keyVaultName: ""
   secretProviderClassPrefix: finopsiq-app-config
   csi:

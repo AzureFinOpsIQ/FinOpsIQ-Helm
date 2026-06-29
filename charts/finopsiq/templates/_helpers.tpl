@@ -5,6 +5,10 @@
 {{- end }}
 {{- end }}
 
+{{- define "finopsiq.configMapName" -}}
+{{- default (printf "%s-env" .Values.config.secretName) .Values.config.configMapName -}}
+{{- end -}}
+
 {{- define "finopsiq.workloadIdentityEnv" -}}
 - name: AZURE_CLIENT_ID
   value: {{ .clientId | quote }}

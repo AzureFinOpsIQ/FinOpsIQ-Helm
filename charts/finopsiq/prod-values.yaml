@@ -7,6 +7,7 @@ workloadIdentity:
 
 config:
   secretName: finopsiq-prod-app-config
+  configMapName: finopsiq-prod-app-config-env
   keyVaultName: kv-finopsiq-prod
   env:
     AZURE_TENANT_ID: "22dc2419-3ab3-4f27-905a-945315d19d95"

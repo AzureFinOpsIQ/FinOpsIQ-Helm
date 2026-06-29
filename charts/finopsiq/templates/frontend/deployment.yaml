@@ -14,6 +14,8 @@ spec:
       app.kubernetes.io/component: frontend
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         app.kubernetes.io/name: finopsiq
         app.kubernetes.io/component: frontend
@@ -46,8 +48,10 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.services.frontend.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "finopsiq.configMapName" . | quote }}
           env:
-{{ include "finopsiq.commonEnv" . | indent 12 }}
 {{ include "finopsiq.workloadIdentityEnv" (dict "clientId" .Values.services.frontend.serviceAccountClientId) | indent 12 }}
             - name: NEXT_PUBLIC_API_URL
               value: {{ .Values.services.frontend.env.NEXT_PUBLIC_API_URL | quote }}
